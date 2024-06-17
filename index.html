@@ -3,7 +3,6 @@
 
 <head>
     <meta name="viewport" content="width=device-width">
-    <link rel="stylesheet" href="style.css">
     <title>Le jeu du pendu</title>
     <meta name="description" content="Venez-jouez au jeu du pendu">
     <meta charset="UTF-8">
@@ -17,23 +16,21 @@
     <main>
     <section>
         <h2>Devinez le mot!</h2>
-        <h3>Cliquez ici pour jouer</h3>
+        <button>Cliquez ici pour jouer</button>
         <article>
-            <h4>Mot à deviner</h4>
+            <h4 id="motDeviner">Mot à deviner</h4>
         </article>
-        <aricle>
-            <h4>Lettres devinées</h4>
-        </aricle>
     </section>
     <section>
         <h4>Quelle lettre proposez-vous?</h4>
+        <button id="choix">test</button>
         <input type="text">
     </section>
     </main>
     <footer>
-            <p>Votre score est de 0 points</p>
+            <p>Il vous reste <b>5 vies</b></p>
     </footer>
-    <script src="script.js" defer></script>
+    <script src="scripts.js" defer></script>
 </body>
 
 </html>
