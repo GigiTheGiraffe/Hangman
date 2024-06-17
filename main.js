@@ -5,4 +5,5 @@ function lancerJeu() {
     updateVie();
     btnChoix.disabled = false;
     lettreDonnee = [];
+    zoneInput.value = "";
 }
