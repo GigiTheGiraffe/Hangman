@@ -4,4 +4,5 @@ function lancerJeu() {
     motAffiche = affichageMotCache();
     updateVie();
     btnChoix.disabled = false;
+    lettreDonnee = [];
 }
