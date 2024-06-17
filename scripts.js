@@ -9,6 +9,7 @@ let btnJouer = document.querySelector("button");
 let btnChoix = document.getElementById("choix");
 let zoneVie = document.querySelector("b");
 let zoneInput = document.querySelector("input");
+let lettreDonnee = [];
 
 function afficher(position, texte) {
     let zone = document.getElementById(`${position}`);
@@ -31,31 +32,27 @@ function affichageMotCache() {
 
 //change la string affiché par la nouvelle avec les lettres découvertes
 function propositionLettre(lettre) {
-    lettre = lettre.toLowerCase();
-    if (lettre.length > 0 && lettre.length < 2) {
-        let charCode = lettre.charCodeAt(0);
-        if (charCode > 96 && charCode < 123) {
-            if (motChoisi.includes(lettre)) {
-                let nouveauMot;
-                for (let i = 0; i < motChoisi.length; i++) {
-                    if (motChoisi[i] === lettre) {
-                        //création nouvelle string avec injection de la lettre
-                        nouveauMot = motAffiche.substring(0, i) + lettre + motAffiche.substring(i + 1);
-                        afficher("motDeviner", nouveauMot);
-                        //remplace le mot fait d'étoiles avec le nouveau mot pour garder en mémoire les changements
-                        motAffiche = nouveauMot;
-                    }
-                };
-            } else {
-                vie--;
+    if (lettre.length === 1 && lettre.match(/[a-z]/i)) {
+        if (motChoisi.includes(lettre)) {
+            for (let i = 0; i < motChoisi.length; i++) {
+                if (motChoisi[i] === lettre) {
+                    motAffiche = motAffiche.substring(0, i) + lettre + motAffiche.substring(i + 1);
+                }
             }
+            afficher("motDeviner", motAffiche);
+            lettreDonnee.push(" " + lettre);
+            console.log(lettreDonnee);
+            afficher("lettreDejaEntree", lettreDonnee);
         } else {
-            alert("Veuillez rentrer une L E T T R E !");
+            vie--;
+            lettreDonnee.push(" " + lettre);
+            afficher("lettreDejaEntree", lettreDonnee);
         }
     } else {
-            alert("Veuillez rentrer une seule lettre dans le champ");
-        }
+        alert("Veuillez entrer une seule lettre valide !");
     }
+    zoneInput.value = "";
+}
 
 function updateVie() {
     zoneVie.innerText = vie + " vies";
@@ -73,7 +70,7 @@ btnChoix.addEventListener("click", () => {
 function finPartie() {
     if (vie === 0) {
         zoneVie.innerText = vie + " vies";
-        alert("Vous avez perdu! Veuillez appuyer sur jouer pour relancer une partie");
+        alert("Vous avez perdu! Le mot à deviner était " + motChoisi + " Veuillez appuyer sur jouer pour relancer une partie");
         btnChoix.disabled = true;
     }
 }
