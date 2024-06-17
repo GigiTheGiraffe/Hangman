@@ -1,0 +1,17 @@
+body {
+    width: 450px;
+    justify-content: center;
+}
+
+header {
+    background-color: dodgerblue;
+    font-family: "Playwrite FR Moderne";
+    color:white;
+    text-align: center;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.flex {
+    display: flex;
+}
