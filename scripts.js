@@ -2,24 +2,25 @@
 const listeMots = ["pendu", "jeu", "bernacle", "poussin", "pizza"];
 let motAffiche = "";
 let score = 0;
-let vie = 5;
 let motChoisi;
+let vie;
 // choix random du mot
 let btnJouer = document.querySelector("button");
 let btnChoix = document.getElementById("choix");
 let zoneVie = document.querySelector("b");
+let zoneInput = document.querySelector("input");
+let lettreDonnee = [];
 
 function afficher(position, texte) {
     let zone = document.getElementById(`${position}`);
     zone.textContent = texte;
 }
 
-function choixMot () {
+function choixMot() {
     let indexChoisi = Math.floor(Math.random() * listeMots.length);
     //transformation index en mot choisi
     motChoisi = listeMots[indexChoisi];
     return motChoisi;
-    //boucle qui fait le lien entre mot choisi et la lettre choisi, boucle la lettre dans le mot. Si trouvé, affiche la lettre sur lettres devinées au bon index
 };
 
 //afficher le mot en *
@@ -30,21 +31,27 @@ function affichageMotCache() {
 }
 
 //change la string affiché par la nouvelle avec les lettres découvertes
-function propositionLettre (lettre) {
-    if(motChoisi.includes(lettre)) {
-        let nouveauMot;
-        for(let i = 0; i < motChoisi.length; i++) {
-            if(motChoisi[i] === lettre) {
-                //création nouvelle string avec injection de la lettre
-                 nouveauMot= motAffiche.substring(0, i) + lettre + motAffiche.substring(i + 1); 
-                afficher("motDeviner", nouveauMot);
-                //remplace le mot fait d'étoiles avec le nouveau mot pour garder en mémoire les changements
-                motAffiche = nouveauMot;
+function propositionLettre(lettre) {
+    if (lettre.length === 1 && lettre.match(/[a-z]/i)) {
+        if (motChoisi.includes(lettre)) {
+            for (let i = 0; i < motChoisi.length; i++) {
+                if (motChoisi[i] === lettre) {
+                    motAffiche = motAffiche.substring(0, i) + lettre + motAffiche.substring(i + 1);
+                }
             }
-        };
+            afficher("motDeviner", motAffiche);
+            lettreDonnee.push(" " + lettre);
+            console.log(lettreDonnee);
+            afficher("lettreDejaEntree", lettreDonnee);
+        } else {
+            vie--;
+            lettreDonnee.push(" " + lettre);
+            afficher("lettreDejaEntree", lettreDonnee);
+        }
     } else {
-        vie--;
+        alert("Veuillez entrer une seule lettre valide !");
     }
+    zoneInput.value = "";
 }
 
 function updateVie() {
@@ -53,14 +60,22 @@ function updateVie() {
 
 //btn pour vérifier si la lettre est dedans et changer affichage vie
 btnChoix.addEventListener("click", () => {
-    let lettre = document.querySelector("input").value;
+    let lettre = zoneInput.value;
     propositionLettre(lettre);
     updateVie();
+    finPartie();
 });
+
+//check fin de partie
+function finPartie() {
+    if (vie === 0) {
+        zoneVie.innerText = vie + " vies";
+        alert("Vous avez perdu! Le mot à deviner était " + motChoisi + " Veuillez appuyer sur jouer pour relancer une partie");
+        btnChoix.disabled = true;
+    }
+}
 
 // générer le mot et les lettres à deviner
 btnJouer.addEventListener("click", () => {
-    motChoisi = choixMot();
-    motAffiche = affichageMotCache();
+   lancerJeu();
 });
-
