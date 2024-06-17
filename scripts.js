@@ -1,7 +1,6 @@
 // liste des mots
 const listeMots = ["pendu", "jeu", "bernacle", "poussin", "pizza"];
 let motAffiche = "";
-let score = 0;
 let motChoisi;
 let vie;
 // choix random du mot
@@ -32,7 +31,10 @@ function affichageMotCache() {
 
 //change la string affiché par la nouvelle avec les lettres découvertes
 function propositionLettre(lettre) {
-    if (lettre.length === 1 && lettre.match(/[a-z]/i)) {
+    lettre.toLowerCase();
+    if (lettre.length === 1 && lettre.match(/[a-z]/) && !lettreDonnee.includes(" " + lettre)) {
+        lettreDonnee.push(" " + lettre);
+        afficher("lettreDejaEntree", lettreDonnee);
         if (motChoisi.includes(lettre)) {
             for (let i = 0; i < motChoisi.length; i++) {
                 if (motChoisi[i] === lettre) {
@@ -40,16 +42,11 @@ function propositionLettre(lettre) {
                 }
             }
             afficher("motDeviner", motAffiche);
-            lettreDonnee.push(" " + lettre);
-            console.log(lettreDonnee);
-            afficher("lettreDejaEntree", lettreDonnee);
         } else {
             vie--;
-            lettreDonnee.push(" " + lettre);
-            afficher("lettreDejaEntree", lettreDonnee);
         }
     } else {
-        alert("Veuillez entrer une seule lettre valide !");
+        alert("Veuillez entrer une seule lettre valide qui n'a pas déjà été donnée !");
     }
     zoneInput.value = "";
 }
@@ -69,8 +66,10 @@ btnChoix.addEventListener("click", () => {
 //check fin de partie
 function finPartie() {
     if (vie === 0) {
-        zoneVie.innerText = vie + " vies";
         alert("Vous avez perdu! Le mot à deviner était " + motChoisi + " Veuillez appuyer sur jouer pour relancer une partie");
+        btnChoix.disabled = true;
+    } else if (motChoisi === motAffiche) {
+        alert("Felicitation, vous avez gagné! Le mot à deviner était bien " + motChoisi + " Veuillez appuyer sur jouer pour relancer une partie");
         btnChoix.disabled = true;
     }
 }
