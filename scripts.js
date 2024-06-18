@@ -1,5 +1,5 @@
 // liste des mots
-const listeMots = ["pendu", "jeu", "bernacle", "poussin", "pizza"];
+const listeMots = ["pendu", "jeu", "bernacle", "poussin", "pizza", "chat", "montagne", "eclair", "synchronisation", "vert", "balai", "effervescent", "nuage", "abracadabra", "zephyr", "brioche", "galaxie", "xylophone", "lampadaire", "feuille", "ordinateur", "magicien", "vol", "metamorphose", "python", "javascript"];
 let motAffiche = "";
 let motChoisi;
 let vie;
@@ -53,6 +53,7 @@ function propositionLettre(lettre) {
 
 function updateVie() {
     zoneVie.innerText = vie + " vies";
+    document.getElementById("imagePendu").src = `images/${vie}.png`;
 }
 
 //btn pour vérifier si la lettre est dedans et changer affichage vie
@@ -66,15 +67,19 @@ btnChoix.addEventListener("click", () => {
 //check fin de partie
 function finPartie() {
     if (vie === 0) {
-        alert("Vous avez perdu! Le mot à deviner était " + motChoisi + " Veuillez appuyer sur jouer pour relancer une partie");
+        setTimeout(function () {
+            alert("Vous avez perdu! Le mot à deviner était " + motChoisi + "\nVeuillez appuyer sur jouer pour relancer une partie");
+        }, 1000);
         btnChoix.disabled = true;
     } else if (motChoisi === motAffiche) {
-        alert("Felicitation, vous avez gagné! Le mot à deviner était bien " + motChoisi + " Veuillez appuyer sur jouer pour relancer une partie");
+        setTimeout(function () {
+            alert("Félicitations, vous avez gagné! Le mot à deviner était bien " + motChoisi + "\nVeuillez appuyer sur jouer pour relancer une partie");
+        }, 1000);
         btnChoix.disabled = true;
     }
 }
 
 // générer le mot et les lettres à deviner
 btnJouer.addEventListener("click", () => {
-   lancerJeu();
+    lancerJeu();
 });
